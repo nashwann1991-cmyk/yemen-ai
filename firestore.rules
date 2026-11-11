@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.role == 'admin' ||
+         exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+
+    // Users: Users can read their own profile; admins can read all; only owner or admin can write
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status'])) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Plans: Publicly readable for active plans; only admin can create/update/delete
+    match /plans/{planId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Subscriptions: Users can read their own; only server/admin can create/update
+    match /subscriptions/{subscriptionId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Wallets: Read-only for owner; only server/admin can modify balances (prevents client credit cheating)
+    match /wallets/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Ledger: Read-only for owner; strictly append-only by server/admin
+    match /ledger/{txId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Activation Keys: Never readable by ordinary users to prevent enumeration; admin only
+    match /activationKeys/{keyId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Generation Jobs: Owner can read their jobs; creation and status updates managed via server
+    match /generationJobs/{jobId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Customer API Credentials: Read/write by owner (encrypted values only), admin can audit
+    match /customerApiCredentials/{credId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // Payments: Read by owner or admin; write only via server/admin
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Providers & Settings: Read-only public metadata for active providers; admin write
+    match /providers/{providerId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // WebhookEvents & AuditLogs: Admin only
+    match /webhookEvents/{eventId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /auditLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

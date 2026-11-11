@@ -1,0 +1,638 @@
+{
+  "users": [
+    {
+      "uid": "usr_admin_master",
+      "displayName": "المهندس نشوان (مدير المنصة)",
+      "email": "nashwann1991@gmail.com",
+      "passwordHash": "920250b96a1b41afd7263203b09ccc11:72caeb4d41b0cc804f75b1ab18eca0d9af39d4f941ec61b3638acb3b401c072839c3a5b4245745bc4f3441ef1b3f46c77892aa831cc02a47a4a4399ee74349f4",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2026-10-10T20:13:26.302Z",
+      "updatedAt": "2026-10-16T14:26:26.662Z",
+      "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=%D8%A7%D9%84%D9%85%D9%87%D9%86%D8%AF%D8%B3%20%D9%86%D8%B4%D9%88%D8%A7%D9%86"
+    },
+    {
+      "uid": "usr_demo_creator",
+      "displayName": "صانع محتوى تجريبي",
+      "email": "creator_demo@studio.ai",
+      "passwordHash": "d080fc1c15bbc62ac736c27ef3e2b202:e2c808be6f7bfaf2d411717e72dc0a676e7036b821a3ea97370648ab6ca0977118ec07665ea6a75c1d6f53aa0cab181218c03f06f5d568f94c4bae0a4c393fb5",
+      "role": "creator",
+      "status": "active",
+      "createdAt": "2026-10-10T20:13:26.310Z",
+      "updatedAt": "2026-10-16T14:13:08.510Z"
+    },
+    {
+      "uid": "usr_g_9e3c3515-bc74-4b9e-af98-c689d1bfac65",
+      "displayName": "مستخدم تجريبي جوجل",
+      "email": "testgoogleuser@gmail.com",
+      "passwordHash": "58f597185120f10b68c93ffac1afccee:065ad1bc35845c31a78828a06d35c7af54342a5093be7054b6c283dfcd562b1f1105e1de59df79f064f47923927ccafc4244335852274c2771fa90d82a84a50c",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-10-16T14:21:46.448Z",
+      "updatedAt": "2026-10-16T14:21:46.448Z"
+    },
+    {
+      "uid": "usr_g_ac40da04-f15f-4313-9ff0-8140ade1b80e",
+      "displayName": "alhasann2023",
+      "email": "alhasann2023@gmail.com",
+      "passwordHash": "061555b92c3394e05501f6ded2413532:6a4e1f62b2f5bad906c1b7e04c4d2f0079a51658451e3f22af0c5392570f8b39abdea2fb7a0df4fe26cdb30542e2d31dede47a1291a7783d89ecdf8babe25065",
+      "role": "user",
+      "status": "active",
+      "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=alhasann2023",
+      "createdAt": "2026-10-16T14:31:21.116Z",
+      "updatedAt": "2026-10-16T14:31:39.965Z"
+    },
+    {
+      "uid": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
+      "displayName": "روان عبدالملك",
+      "email": "rwann9101@gmail.com",
+      "passwordHash": "598213314047606208dbc741803c8afa:294cf8c8114880939420a34804015efef4091f5d3a418d16d796cc542e9445db543eda7c0f58087c7b8aedead2326a50cd96585822e7da5e769383387a67d7a6",
+      "role": "user",
+      "status": "active",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIBsgETgkHnW_hJd1MeWzLPWSQUfaxWtHHTMi453fi61qOFSg=s96-c",
+      "createdAt": "2026-10-16T14:38:02.206Z",
+      "updatedAt": "2026-10-16T14:38:02.206Z"
+    }
+  ],
+  "plans": [
+    {
+      "planId": "plan_trial",
+      "name": "Free Trial",
+      "nameAr": "تجربة مجانية",
+      "description": "تجربة قدرات المنصة التوليدية فور التسجيل",
+      "priceMinor": 0,
+      "currency": "USD",
+      "duration": "monthly",
+      "creditsGranted": 100,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts"
+      ],
+      "maxVideoDurationSeconds": 5,
+      "maxDailyJobs": 15,
+      "active": true
+    },
+    {
+      "planId": "plan_5days_sprint",
+      "name": "5-Day Fast Sprint",
+      "nameAr": "باقة 5 أيام السريعة",
+      "description": "إنتاج محتوى مكثف لمدة خمسة أيام متتالية للمتاجر والحملات الإعلانية",
+      "priceMinor": 999,
+      "currency": "USD",
+      "duration": "5days",
+      "durationDays": 5,
+      "creditsGranted": 500,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts",
+        "veo-3.1-lite-generate-preview"
+      ],
+      "maxVideoDurationSeconds": 15,
+      "maxDailyJobs": 50,
+      "active": true,
+      "badge": "5 أيام عمل",
+      "features": [
+        "500 رصيد توليد متكامل",
+        "صلاحية استخدام كاملة لمدة 5 أيام متتالية",
+        "توليد مقاطع فيديو بدقة 1080p بمحرك Veo Lite",
+        "توليد صور متقدمة وعالية الدقة",
+        "ترخيص استخدام تجاري معتمد"
+      ]
+    },
+    {
+      "planId": "plan_weekly_flex",
+      "name": "Weekly Flex Plan",
+      "nameAr": "باقة أسبوعية مرنة",
+      "description": "خطة أسبوعية مرنة لمديري الحملات وصناع المحتوى على وسائل التواصل",
+      "priceMinor": 1499,
+      "currency": "USD",
+      "duration": "weekly",
+      "durationDays": 7,
+      "creditsGranted": 800,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts",
+        "veo-3.1-lite-generate-preview"
+      ],
+      "maxVideoDurationSeconds": 20,
+      "maxDailyJobs": 70,
+      "active": true,
+      "badge": "أسبوعي اقتصادي",
+      "features": [
+        "800 رصيد توليد أسبوعي متجدد",
+        "صلاحية استخدام كاملة لمدة 7 أيام",
+        "توليد فيديو عالي الدقة بمحرك Veo Lite",
+        "نماذج صور وصوتيات غير محدودة",
+        "أولوية معالجة سريعة وترخيص تجاري"
+      ]
+    },
+    {
+      "planId": "plan_creator",
+      "name": "Content Creator",
+      "nameAr": "صانع المحتوى",
+      "description": "مثالي لصناع الشورتس والريلز وحملات التواصل الاجتماعي",
+      "priceMinor": 2900,
+      "currency": "USD",
+      "duration": "monthly",
+      "creditsGranted": 1200,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts",
+        "veo-3.1-lite-generate-preview"
+      ],
+      "maxVideoDurationSeconds": 15,
+      "maxDailyJobs": 80,
+      "active": true
+    },
+    {
+      "planId": "plan_pro",
+      "name": "Pro Studio",
+      "nameAr": "المحترف برو",
+      "description": "للوكالات الإعلانية والمسوقين المحترفين وأصحاب الأعمال",
+      "priceMinor": 7900,
+      "currency": "USD",
+      "duration": "monthly",
+      "creditsGranted": 4000,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-nano-banana-2.1",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts",
+        "veo-3.1-generate-preview",
+        "veo-3.1-lite-generate-preview"
+      ],
+      "maxVideoDurationSeconds": 30,
+      "maxDailyJobs": 250,
+      "active": true
+    },
+    {
+      "planId": "plan_enterprise",
+      "name": "Enterprise Studio",
+      "nameAr": "الاستوديو التجاري",
+      "description": "قدرات استثنائية للشركات والإنتاج التلفزيوني والإعلاني الضخم",
+      "priceMinor": 19900,
+      "currency": "USD",
+      "duration": "monthly",
+      "creditsGranted": 12000,
+      "allowedModels": [
+        "gemini-3.8-flash",
+        "gemini-nano-banana-2.1",
+        "gemini-3.1-flash-lite-image",
+        "gemini-3.8-flash-lite-tts",
+        "veo-3.1-generate-preview",
+        "veo-3.1-lite-generate-preview"
+      ],
+      "maxVideoDurationSeconds": 60,
+      "maxDailyJobs": 1000,
+      "active": true
+    }
+  ],
+  "subscriptions": [],
+  "activationKeys": [
+    {
+      "keyId": "key_141ef759-4aff-4425-96b3-174fd507743f",
+      "keyHash": "f4ee71ccbf8a7e1e070e68df0d15e150bb379a1de376acbdcce9184422c6dd9b",
+      "planId": "plan_creator",
+      "creditsAmount": 500,
+      "status": "active",
+      "expiresAt": "2026-11-15T14:13:32.864Z",
+      "maxActivations": 1,
+      "activationCount": 0,
+      "createdBy": "usr_admin_master",
+      "createdAt": "2026-10-16T14:13:32.864Z"
+    },
+    {
+      "keyId": "key_1668ade0-a6a4-44a8-ac66-f9d23b67d8e4",
+      "keyHash": "f3ee9c689f713e7bd5aa358d3d644bd1888152582921e34236959c85ade9ce45",
+      "planId": "plan_creator",
+      "creditsAmount": 500,
+      "status": "active",
+      "expiresAt": "2026-11-15T14:13:32.864Z",
+      "maxActivations": 1,
+      "activationCount": 0,
+      "createdBy": "usr_admin_master",
+      "createdAt": "2026-10-16T14:13:32.864Z"
+    }
+  ],
+  "wallets": [
+    {
+      "uid": "usr_admin_master",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-16T14:10:23.201Z"
+    },
+    {
+      "uid": "usr_demo_creator",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-10T20:13:26.310Z"
+    },
+    {
+      "uid": "usr_test_974287c5-92b9-4967-9422-359281d968a2",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-10T20:13:39.714Z"
+    },
+    {
+      "uid": "usr_test_9ba5c1b4-2dad-42aa-a0a8-14af6745fb02",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-16T14:13:48.839Z"
+    },
+    {
+      "uid": "usr_g_9e3c3515-bc74-4b9e-af98-c689d1bfac65",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-16T14:21:46.448Z"
+    },
+    {
+      "uid": "usr_g_ac40da04-f15f-4313-9ff0-8140ade1b80e",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-16T14:31:21.116Z"
+    },
+    {
+      "uid": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-10-16T14:38:02.206Z"
+    }
+  ],
+  "ledger": [
+    {
+      "transactionId": "tx_3113be5c-a891-4c21-aab3-2c34b881ad66",
+      "uid": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-16T14:38:02.206Z"
+    },
+    {
+      "transactionId": "tx_b4e0a56c-933b-4747-bcf0-c8050c0bc8e3",
+      "uid": "usr_g_ac40da04-f15f-4313-9ff0-8140ade1b80e",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-16T14:31:21.116Z"
+    },
+    {
+      "transactionId": "tx_cfad8cd4-ece9-4b23-b180-4af3c6d32797",
+      "uid": "usr_g_9e3c3515-bc74-4b9e-af98-c689d1bfac65",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-16T14:21:46.448Z"
+    },
+    {
+      "transactionId": "tx_c57cc85a-7d10-4a4a-98a1-86b5d4fe9bfe",
+      "uid": "usr_test_9ba5c1b4-2dad-42aa-a0a8-14af6745fb02",
+      "type": "generation_refund",
+      "amount": 30,
+      "balanceBefore": 70,
+      "balanceAfter": 100,
+      "referenceId": "job_test_1",
+      "description": "إلغاء حجز الرصيد واسترداده بالكامل: اختبار الاسترداد",
+      "createdAt": "2026-10-16T14:13:48.839Z"
+    },
+    {
+      "transactionId": "tx_6746715e-857b-4f27-8288-382f247da1a3",
+      "uid": "usr_test_9ba5c1b4-2dad-42aa-a0a8-14af6745fb02",
+      "type": "generation_hold",
+      "amount": -30,
+      "balanceBefore": 100,
+      "balanceAfter": 70,
+      "referenceId": "job_test_1",
+      "description": "اختبار حجز الرصيد",
+      "createdAt": "2026-10-16T14:13:48.839Z"
+    },
+    {
+      "transactionId": "tx_d510213d-c4e1-44a0-9991-744306ade2fe",
+      "uid": "usr_test_9ba5c1b4-2dad-42aa-a0a8-14af6745fb02",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-16T14:13:48.838Z"
+    },
+    {
+      "transactionId": "tx_943b982e-0914-4aea-867c-5027ee117958",
+      "uid": "usr_admin_master",
+      "type": "generation_refund",
+      "amount": 1,
+      "balanceBefore": 99,
+      "balanceAfter": 100,
+      "referenceId": "job_40fb2c6a-c46f-4324-b543-0c8d294775cf",
+      "description": "إلغاء حجز الرصيد واسترداده بالكامل: {\"error\":{\"code\":503,\"message\":\"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\"status\":\"UNAVAILABLE\"}}",
+      "createdAt": "2026-10-16T14:10:23.201Z"
+    },
+    {
+      "transactionId": "tx_95642c27-d08f-4ce4-9eea-c22fd8e6afce",
+      "uid": "usr_admin_master",
+      "type": "generation_hold",
+      "amount": -1,
+      "balanceBefore": 100,
+      "balanceAfter": 99,
+      "referenceId": "job_40fb2c6a-c46f-4324-b543-0c8d294775cf",
+      "description": "تحسين البرومبت وكتابة السيناريو الذكي",
+      "createdAt": "2026-10-16T14:10:22.862Z"
+    },
+    {
+      "transactionId": "tx_5b52632c-88db-47a6-9c45-62c66d34fed9",
+      "uid": "usr_admin_master",
+      "type": "generation_refund",
+      "amount": 25,
+      "balanceBefore": 75,
+      "balanceAfter": 100,
+      "referenceId": "job_84ec5889-3ed2-4ad2-bcd3-f71f34b46a0a",
+      "description": "إلغاء حجز الرصيد واسترداده بالكامل: {\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]}]}}",
+      "createdAt": "2026-10-16T14:05:33.054Z"
+    },
+    {
+      "transactionId": "tx_12431273-51bc-4667-88e1-646e87a89f82",
+      "uid": "usr_admin_master",
+      "type": "generation_hold",
+      "amount": -25,
+      "balanceBefore": 100,
+      "balanceAfter": 75,
+      "referenceId": "job_84ec5889-3ed2-4ad2-bcd3-f71f34b46a0a",
+      "description": "إنشاء فيديو بالذكاء الاصطناعي (veo-3.1-lite-generate-preview)",
+      "createdAt": "2026-10-16T14:05:32.413Z"
+    },
+    {
+      "transactionId": "tx_9ac278f7-e8af-4a1c-8780-751382634873",
+      "uid": "usr_test_974287c5-92b9-4967-9422-359281d968a2",
+      "type": "generation_refund",
+      "amount": 30,
+      "balanceBefore": 70,
+      "balanceAfter": 100,
+      "referenceId": "job_test_1",
+      "description": "إلغاء حجز الرصيد واسترداده بالكامل: اختبار الاسترداد",
+      "createdAt": "2026-10-10T20:13:39.714Z"
+    },
+    {
+      "transactionId": "tx_665dd860-38b2-4551-9b41-3b03ce435634",
+      "uid": "usr_test_974287c5-92b9-4967-9422-359281d968a2",
+      "type": "generation_hold",
+      "amount": -30,
+      "balanceBefore": 100,
+      "balanceAfter": 70,
+      "referenceId": "job_test_1",
+      "description": "اختبار حجز الرصيد",
+      "createdAt": "2026-10-10T20:13:39.714Z"
+    },
+    {
+      "transactionId": "tx_5292a662-451e-4d03-b391-b81a406cd871",
+      "uid": "usr_test_974287c5-92b9-4967-9422-359281d968a2",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-10T20:13:39.713Z"
+    },
+    {
+      "transactionId": "tx_82873ae0-555c-4b72-ba2d-db2d4c193318",
+      "uid": "usr_demo_creator",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-10T20:13:26.310Z"
+    },
+    {
+      "transactionId": "tx_1b3a0fc5-0f31-4b10-9d9c-29b000fd7984",
+      "uid": "usr_admin_master",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-10-10T20:13:26.303Z"
+    }
+  ],
+  "generationJobs": [
+    {
+      "jobId": "job_84ec5889-3ed2-4ad2-bcd3-f71f34b46a0a",
+      "uid": "usr_admin_master",
+      "type": "video",
+      "providerId": "provider_gemini",
+      "modelId": "veo-3.1-lite-generate-preview",
+      "prompt": "لحظة فرح العائلة بعد سماع الاصوات. Style: سينمائي واقعي. Camera: حركة كاميرا سينمائية سلسة (Smooth Dolly In). High cinematic quality.",
+      "status": "failed",
+      "estimatedCost": 25,
+      "reservedCredits": 25,
+      "actualCost": 25,
+      "metadata": {
+        "aspectRatio": "9:16",
+        "resolution": "720p"
+      },
+      "createdAt": "2026-10-16T14:05:32.413Z",
+      "errorCode": "{\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]}]}}",
+      "completedAt": "2026-10-16T14:05:33.053Z"
+    }
+  ],
+  "providers": [
+    {
+      "providerId": "provider_gemini",
+      "name": "Google Gemini & Veo Official API",
+      "nameAr": "جوجل جيميني وفيو الرسمي",
+      "enabled": true,
+      "type": "google_gemini",
+      "secretConfigured": true,
+      "updatedAt": "2026-10-10T20:10:00.483Z",
+      "models": [
+        {
+          "modelId": "gemini-3.8-flash",
+          "name": "Gemini 3.8 Flash (Script & Prompts)",
+          "task": "text",
+          "creditCost": 1,
+          "enabled": true
+        },
+        {
+          "modelId": "gemini-3.1-flash-lite-image",
+          "name": "Gemini 3.1 Flash Lite Image",
+          "task": "image",
+          "creditCost": 5,
+          "enabled": true
+        },
+        {
+          "modelId": "gemini-nano-banana-2.1",
+          "name": "Gemini Nano Banana 2.1 (Ultra 4K & Realism)",
+          "task": "image",
+          "creditCost": 10,
+          "enabled": true
+        },
+        {
+          "modelId": "gemini-3.8-flash-lite-tts",
+          "name": "Gemini 3.8 Flash Lite TTS (Arabic & Multi-Language)",
+          "task": "speech",
+          "creditCost": 4,
+          "enabled": true
+        },
+        {
+          "modelId": "veo-3.1-lite-generate-preview",
+          "name": "Google Veo 3.1 Lite (Cinematic Video Engine)",
+          "task": "video",
+          "creditCost": 25,
+          "enabled": true
+        },
+        {
+          "modelId": "veo-3.1-generate-preview",
+          "name": "Google Veo 3.1 Flagship (Ultra HD Video Engine)",
+          "task": "video",
+          "creditCost": 50,
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "customerApiCredentials": [],
+  "payments": [],
+  "auditLogs": [
+    {
+      "logId": "log_616686d7-4dfa-4c4e-8b09-3d326ffe9a3d",
+      "actorUid": "usr_admin_master",
+      "action": "delete_plan",
+      "targetType": "plan",
+      "targetId": "plan_fb9f4b3c-2588-4916-be35-adea3f5023a4",
+      "timestamp": "2026-10-16T14:57:22.740Z",
+      "safeMetadata": {
+        "nameAr": "باقة 5 أيام VIP الحصرية"
+      }
+    },
+    {
+      "logId": "log_0d3c1eba-33ec-41b9-8240-eec197e34e1f",
+      "actorUid": "usr_admin_master",
+      "action": "toggle_plan",
+      "targetType": "plan",
+      "targetId": "plan_fb9f4b3c-2588-4916-be35-adea3f5023a4",
+      "timestamp": "2026-10-16T14:57:22.727Z",
+      "safeMetadata": {
+        "active": false
+      }
+    },
+    {
+      "logId": "log_7681d8d4-a15d-44e8-8cd6-32c647117fc8",
+      "actorUid": "usr_admin_master",
+      "action": "create_plan",
+      "targetType": "plan",
+      "targetId": "plan_fb9f4b3c-2588-4916-be35-adea3f5023a4",
+      "timestamp": "2026-10-16T14:57:08.548Z",
+      "safeMetadata": {
+        "nameAr": "باقة 5 أيام VIP الحصرية",
+        "duration": "5days",
+        "durationDays": 5,
+        "creditsGranted": 650,
+        "priceMinor": 850
+      }
+    },
+    {
+      "logId": "log_0ca092b7-10d6-4475-b801-0c414c4915f8",
+      "actorUid": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
+      "action": "google_signup",
+      "targetType": "user",
+      "targetId": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
+      "timestamp": "2026-10-16T14:38:02.206Z",
+      "safeMetadata": {
+        "email": "rwann9101@gmail.com",
+        "role": "user"
+      }
+    },
+    {
+      "logId": "log_4103a537-584e-4653-89a6-cb009094996a",
+      "actorUid": "usr_g_ac40da04-f15f-4313-9ff0-8140ade1b80e",
+      "action": "google_signup",
+      "targetType": "user",
+      "targetId": "usr_g_ac40da04-f15f-4313-9ff0-8140ade1b80e",
+      "timestamp": "2026-10-16T14:31:21.116Z",
+      "safeMetadata": {
+        "email": "alhasann2023@gmail.com",
+        "role": "user"
+      }
+    },
+    {
+      "logId": "log_1496e7c0-e4d6-4708-9572-b62b60ef817f",
+      "actorUid": "usr_g_9e3c3515-bc74-4b9e-af98-c689d1bfac65",
+      "action": "google_signup",
+      "targetType": "user",
+      "targetId": "usr_g_9e3c3515-bc74-4b9e-af98-c689d1bfac65",
+      "timestamp": "2026-10-16T14:21:46.449Z",
+      "safeMetadata": {
+        "email": "testgoogleuser@gmail.com",
+        "role": "user"
+      }
+    },
+    {
+      "logId": "log_13bd54eb-eb4d-4280-8b01-23d8ed724890",
+      "actorUid": "usr_admin_master",
+      "action": "generate_keys",
+      "targetType": "activationKey",
+      "targetId": "count_2",
+      "timestamp": "2026-10-16T14:13:32.865Z",
+      "safeMetadata": {
+        "planId": "plan_creator",
+        "creditsAmount": 500
+      }
+    },
+    {
+      "logId": "log_b6176032-a4d2-4029-bff9-2a26f5252bb8",
+      "actorUid": "usr_admin_master",
+      "action": "toggle_user_status",
+      "targetType": "user",
+      "targetId": "usr_demo_creator",
+      "timestamp": "2026-10-16T14:13:08.510Z",
+      "safeMetadata": {
+        "newStatus": "active"
+      }
+    },
+    {
+      "logId": "log_6963e79e-4086-4bce-990b-2c32d5c6dfc1",
+      "actorUid": "usr_admin_master",
+      "action": "toggle_user_status",
+      "targetType": "user",
+      "targetId": "usr_demo_creator",
+      "timestamp": "2026-10-16T14:12:57.663Z",
+      "safeMetadata": {
+        "newStatus": "suspended"
+      }
+    }
+  ],
+  "siteSettings": {
+    "siteName": "CREATIVE AI STUDIO PRO",
+    "siteNameAr": "استوديو الإبداع بالذكاء الاصطناعي",
+    "taglineAr": "المنصة التجارية المتكاملة لصناعة الفيديو، الصور والتعليقات الصوتية بالذكاء الاصطناعي",
+    "primaryCurrency": "USD",
+    "creditPriceCents": 10,
+    "manualBankDetails": "البنك التجاري الدولي - حساب رقم: 9876543210 - آيبان: AE070331234567890123456 - اسم المستفيد: استوديو الإبداع الرقمي",
+    "manualCryptoDetails": "USDT (TRC20): TXYzCreativeStudioProOfficialWallet99",
+    "allowByok": true,
+    "freeTrialCredits": 100,
+    "supportEmail": "support@creativestudio.ai"
+  }
+}

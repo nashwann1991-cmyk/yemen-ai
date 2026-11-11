@@ -1,0 +1,25 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Google Cloud / Firebase credentials
+firebase-service-account.json
+firebase-adminsdk*.json
+serviceAccountKey*.json
+
+# Dependencies and builds
+node_modules/
+dist/
+build/
+# Electron build outputs
+**/win-unpacked/
+**/dist/
+**/build/
+
+# Large application packages
+*.asar
+*.exe
+
+# Installer artifacts
+*.blockmap

@@ -1,0 +1,6 @@
+{
+  "name": "CREATIVE AI STUDIO PRO",
+  "description": "منصة تجارية متكاملة لإنتاج الفيديو والصور والتعليقات الصوتية الاحترافية بالذكاء الاصطناعي مع نظام اشتراكات ومحفظة مالية ومفاتيح تفعيل.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

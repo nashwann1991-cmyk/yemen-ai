@@ -1,0 +1,258 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User account profile and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["user", "admin", "creator"] },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "status"]
+    },
+    "Plan": {
+      "title": "Plan",
+      "description": "Commercial subscription package tiers",
+      "type": "object",
+      "properties": {
+        "planId": { "type": "string" },
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "description": { "type": "string" },
+        "priceMinor": { "type": "number" },
+        "currency": { "type": "string" },
+        "duration": { "type": "string", "enum": ["monthly", "annual", "custom"] },
+        "creditsGranted": { "type": "number" },
+        "allowedModels": { "type": "array" },
+        "maxVideoDurationSeconds": { "type": "number" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["planId", "name", "priceMinor", "currency", "duration", "creditsGranted", "active"]
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "User active plan subscription record",
+      "type": "object",
+      "properties": {
+        "subscriptionId": { "type": "string" },
+        "uid": { "type": "string" },
+        "planId": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "expired", "cancelled"] },
+        "startsAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "renewalStatus": { "type": "string" },
+        "paymentReference": { "type": "string" }
+      },
+      "required": ["subscriptionId", "uid", "planId", "status", "startsAt", "expiresAt"]
+    },
+    "ActivationKey": {
+      "title": "ActivationKey",
+      "description": "Cryptographically generated license key for redeeming plans or credits",
+      "type": "object",
+      "properties": {
+        "keyId": { "type": "string" },
+        "keyHash": { "type": "string" },
+        "planId": { "type": "string" },
+        "creditsAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "redeemed", "revoked", "expired"] },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "maxActivations": { "type": "number" },
+        "activationCount": { "type": "number" },
+        "assignedUid": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "redeemedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["keyId", "keyHash", "status", "maxActivations", "activationCount"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "User credit balance and hold balances",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "availableCredits": { "type": "number" },
+        "reservedCredits": { "type": "number" },
+        "totalEarnedOrPurchased": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "availableCredits", "reservedCredits"]
+    },
+    "Ledger": {
+      "title": "Ledger",
+      "description": "Immutable double-entry financial ledger",
+      "type": "object",
+      "properties": {
+        "transactionId": { "type": "string" },
+        "uid": { "type": "string" },
+        "type": { "type": "string", "enum": ["credit_purchase", "plan_grant", "generation_hold", "generation_finalize", "generation_refund", "activation_redeem", "admin_adjustment"] },
+        "amount": { "type": "number" },
+        "balanceBefore": { "type": "number" },
+        "balanceAfter": { "type": "number" },
+        "referenceId": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["transactionId", "uid", "type", "amount", "balanceBefore", "balanceAfter", "createdAt"]
+    },
+    "GenerationJob": {
+      "title": "GenerationJob",
+      "description": "Asynchronous AI generation job for video, image, and voice",
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string" },
+        "uid": { "type": "string" },
+        "type": { "type": "string", "enum": ["video", "image", "speech", "prompt_expand"] },
+        "providerId": { "type": "string" },
+        "modelId": { "type": "string" },
+        "prompt": { "type": "string" },
+        "status": { "type": "string", "enum": ["queued", "processing", "succeeded", "failed", "cancelled"] },
+        "estimatedCost": { "type": "number" },
+        "reservedCredits": { "type": "number" },
+        "actualCost": { "type": "number" },
+        "resultUrl": { "type": "string" },
+        "errorCode": { "type": "string" },
+        "metadata": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["jobId", "uid", "type", "providerId", "modelId", "status", "createdAt"]
+    },
+    "Provider": {
+      "title": "Provider",
+      "description": "AI provider definition and active state",
+      "type": "object",
+      "properties": {
+        "providerId": { "type": "string" },
+        "name": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "capabilities": { "type": "array" },
+        "models": { "type": "array" },
+        "secretReference": { "type": "string" },
+        "pricingVersion": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["providerId", "name", "enabled"]
+    },
+    "CustomerApiCredential": {
+      "title": "CustomerApiCredential",
+      "description": "BYOK customer API keys encrypted at rest",
+      "type": "object",
+      "properties": {
+        "credentialId": { "type": "string" },
+        "uid": { "type": "string" },
+        "providerId": { "type": "string" },
+        "encryptedSecret": { "type": "string" },
+        "keyMask": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "invalid", "revoked"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastValidatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["credentialId", "uid", "providerId", "encryptedSecret", "status"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Commercial order payment record",
+      "type": "object",
+      "properties": {
+        "paymentId": { "type": "string" },
+        "uid": { "type": "string" },
+        "planId": { "type": "string" },
+        "amountMinor": { "type": "number" },
+        "currency": { "type": "string" },
+        "method": { "type": "string", "enum": ["manual_bank", "manual_crypto", "electronic_stripe", "activation_key"] },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "rejected", "refunded"] },
+        "proofAttachmentUrl": { "type": "string" },
+        "providerReference": { "type": "string" },
+        "adminNotes": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "confirmedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["paymentId", "uid", "amountMinor", "currency", "method", "status", "createdAt"]
+    },
+    "WebhookEvent": {
+      "title": "WebhookEvent",
+      "description": "External payment gateway webhook idempotency log",
+      "type": "object",
+      "properties": {
+        "eventId": { "type": "string" },
+        "providerId": { "type": "string" },
+        "externalEventId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processed", "failed", "duplicate"] },
+        "processedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["eventId", "providerId", "externalEventId", "status", "processedAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and administrative actions log",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string" },
+        "actorUid": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "safeMetadata": { "type": "object" }
+      },
+      "required": ["logId", "actorUid", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "Stores user profiles with role-based access"
+    },
+    "/plans/{planId}": {
+      "schema": "Plan",
+      "description": "Subscription plans available for public purchase"
+    },
+    "/subscriptions/{subscriptionId}": {
+      "schema": "Subscription",
+      "description": "Active and expired user plan subscriptions"
+    },
+    "/activationKeys/{keyId}": {
+      "schema": "ActivationKey",
+      "description": "Secure activation codes hashed and checked server-side"
+    },
+    "/wallets/{uid}": {
+      "schema": "Wallet",
+      "description": "User credit balances"
+    },
+    "/ledger/{transactionId}": {
+      "schema": "Ledger",
+      "description": "Immutable financial credit and debit transactions"
+    },
+    "/generationJobs/{jobId}": {
+      "schema": "GenerationJob",
+      "description": "AI rendering jobs for video, image, and voice"
+    },
+    "/providers/{providerId}": {
+      "schema": "Provider",
+      "description": "Registered AI provider registry"
+    },
+    "/customerApiCredentials/{credentialId}": {
+      "schema": "CustomerApiCredential",
+      "description": "Encrypted BYOK credentials linked to user"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Manual and electronic payment tracking"
+    },
+    "/webhookEvents/{eventId}": {
+      "schema": "WebhookEvent",
+      "description": "Webhook idempotency events"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Security audit records"
+    }
+  }
+}
