@@ -1,12 +1,12 @@
 {
-  "projectId": "famous-chariot-vt86m",
-  "appId": "1:598725575584:web:5ec58b150fbb771708dac5",
-  "apiKey": "AIzaSyB7BwSl4XnOSujLS-TOFnTxIcwOGL_3oYA",
-  "authDomain": "famous-chariot-vt86m.firebaseapp.com",
+  "projectId": "utility-dynamo-468615-c8",
+  "appId": "1:527138240074:web:02d079439844c29e1c58b3",
+  "apiKey": "AIzaSyDIsNxDUfkZAB_8yG9R46IQ5E1NTkDJ640",
+  "authDomain": "utility-dynamo-468615-c8.firebaseapp.com",
   "firestoreDatabaseId": "ai-studio-3d9624d4-ee59-45ee-88fd-bc9fe4a5679d",
-  "storageBucket": "famous-chariot-vt86m.firebasestorage.app",
-  "messagingSenderId": "598725575584",
+  "storageBucket": "utility-dynamo-468615-c8.firebasestorage.app",
+  "messagingSenderId": "527138240074",
   "measurementId": "",
-  "oAuthClientId": "598725575584-428g3d94llqdl4v7vr8nufdgsr0ps1q5.apps.googleusercontent.com",
+  "oAuthClientId": "527138240074-okpnh4uekrop6u7t0k77p4bsc2adsnmo.apps.googleusercontent.com",
   "recaptchaSiteKey": ""
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Lock, Mail, User as UserIcon, AlertCircle, CheckCircle2, ShieldAlert, Sparkles, Loader2 } from 'lucide-react';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.js';
@@ -12,6 +12,14 @@ interface AuthModalProps {
 export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalProps) {
   const { login } = useAuth();
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode);
+      setError(null);
+      setSuccessMsg(null);
+    }
+  }, [isOpen, initialMode]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -24,7 +32,31 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
   const [customGoogleName, setCustomGoogleName] = useState('');
   const [showCustomEmailInput, setShowCustomEmailInput] = useState(false);
 
-  // Google Sign-In & Sign-Up handler (triggers official Google Account Chooser popup)
+  // Map Firebase Auth error codes to clear Arabic messages
+  const formatFirebaseAuthError = (err: any): string => {
+    const code = err?.code || '';
+    if (code === 'auth/email-already-in-use') {
+      return 'هذا البريد الإلكتروني مسجل مسبقاً في Firebase. يمكنك تسجيل الدخول مباشرة.';
+    }
+    if (code === 'auth/weak-password') {
+      return 'كلمة المرور ضعيفة جداً. يجب أن تكون 6 أحرف على الأقل.';
+    }
+    if (code === 'auth/invalid-email') {
+      return 'صيغة البريد الإلكتروني غير صحيحة.';
+    }
+    if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+      return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+    }
+    if (code === 'auth/too-many-requests') {
+      return 'تم تجاوز عدد المحاولات المسموح به. يرجى المحاولة لاحقاً.';
+    }
+    if (code === 'auth/operation-not-allowed') {
+      return 'التسجيل بالبريد وكلمة المرور غير مفعّل بعد في Firebase Console لمشروعك. قم بتفعيل Email/Password من Authentication > Sign-in method أو سجّل بحساب Google.';
+    }
+    return err?.message || 'فشلت العملية، يرجى المحاولة مرة أخرى';
+  };
+
+  // Google Sign-In & Sign-Up handler (triggers official Google Account Chooser popup & saves account to Firestore)
   const handleGoogleSignIn = async () => {
     setError(null);
     setLoading(true);
@@ -40,28 +72,29 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
         // ignore token fetch error if offline
       }
 
-      const res = await api.loginWithGoogle({
-        credential: idToken,
+      const res = await api.syncFirebaseAuth({
+        idToken,
+        firebaseUid: googleUser.uid,
         email: googleUser.email || '',
         displayName: googleUser.displayName || googleUser.email?.split('@')[0] || 'مستخدم Google',
-        photoUrl: googleUser.photoURL || undefined
+        photoUrl: googleUser.photoURL || undefined,
+        authProvider: 'google'
       });
 
       login(res.token, res.user);
       onClose();
     } catch (err: any) {
       console.warn('Google Auth popup notice:', err);
-      if (err.code === 'auth/popup-closed-by-user') {
+      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         setError('تم إغلاق نافذة Google قبل اختيار الحساب');
-      } else if (err.code === 'auth/popup-blocked') {
-        setError('المتصفح حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة لاختيار حساب Google المفتوح.');
+      } else if (err?.code === 'auth/popup-blocked') {
+        setError('المتصفح حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة أو اختيار حسابك أدناه.');
+        setShowGooglePrompt(true);
+      } else if (err?.code === 'auth/unauthorized-domain') {
+        setError('النطاق الحالي غير مضاف في Authorized domains داخل Firebase Console. يمكنك اختيار حسابك أدناه مؤقتاً.');
         setShowGooglePrompt(true);
       } else {
-        // If browser sandbox restricted popup or any network error, open account chooser prompt
-        setShowGooglePrompt(true);
-        if (err.message && !err.message.includes('popup-closed')) {
-          setError(err.message);
-        }
+        setError(err?.message || 'حدث خطأ أثناء المصادقة عبر Google');
       }
     } finally {
       setLoading(false);
@@ -94,17 +127,32 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
     setLoading(true);
 
     try {
+      const { registerWithFirebaseEmail, loginWithFirebaseEmail } = await import('../firebase.js');
       if (mode === 'register') {
-        const res = await api.register({ email, password, displayName });
+        const { user: fbUser, idToken } = await registerWithFirebaseEmail(email, password, displayName);
+        const res = await api.syncFirebaseAuth({
+          idToken,
+          firebaseUid: fbUser.uid,
+          email: fbUser.email || email,
+          displayName: displayName.trim(),
+          authProvider: 'password'
+        });
         login(res.token, res.user);
         onClose();
       } else {
-        const res = await api.login({ email, password });
+        const { user: fbUser, idToken } = await loginWithFirebaseEmail(email, password);
+        const res = await api.syncFirebaseAuth({
+          idToken,
+          firebaseUid: fbUser.uid,
+          email: fbUser.email || email,
+          displayName: fbUser.displayName || undefined,
+          authProvider: 'password'
+        });
         login(res.token, res.user);
         onClose();
       }
     } catch (err: any) {
-      setError(err.message || 'فشلت العملية، يرجى المحاولة مرة أخرى');
+      setError(formatFirebaseAuthError(err));
     } finally {
       setLoading(false);
     }

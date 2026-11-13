@@ -49,6 +49,9 @@ export const api = {
   loginWithGoogle: (body: { credential?: string; email?: string; displayName?: string; photoUrl?: string }) => 
     request<{ token: string; user: any }>('/api/auth/google', { method: 'POST', body: JSON.stringify(body) }),
 
+  syncFirebaseAuth: (body: { idToken?: string; firebaseUid?: string; email: string; displayName?: string; photoUrl?: string; authProvider?: 'password' | 'google' }) =>
+    request<{ token: string; user: any }>('/api/auth/firebase', { method: 'POST', body: JSON.stringify(body) }),
+
   getMe: () => 
     request<{ user: any; wallet: any; subscription: any; systemConfig: any }>('/api/auth/me'),
 

@@ -325,6 +325,85 @@ apiRouter.post('/auth/google', (req: Request, res: Response) => {
   });
 });
 
+// Sync Firebase Auth & Firestore user registration/login with backend wallet & session
+apiRouter.post('/auth/firebase', (req: Request, res: Response) => {
+  let { idToken, firebaseUid, email, displayName, photoUrl, authProvider } = req.body;
+
+  if (idToken && typeof idToken === 'string') {
+    try {
+      const parts = idToken.split('.');
+      if (parts.length >= 2) {
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
+        if (payload.sub) firebaseUid = payload.sub;
+        if (payload.email) email = payload.email;
+        if (payload.name && !displayName) displayName = payload.name;
+        if (payload.picture && !photoUrl) photoUrl = payload.picture;
+      }
+    } catch (err) {
+      console.error('Error decoding Firebase ID token:', err);
+    }
+  }
+
+  if (!email || typeof email !== 'string') {
+    return res.status(400).json({ error: 'بيانات حساب Firebase غير مكتملة' });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  let user = db.users.find(
+    u => (firebaseUid && u.uid === firebaseUid) || u.email.toLowerCase() === normalizedEmail
+  );
+
+  if (user) {
+    if (user.status === 'suspended') {
+      return res.status(403).json({ error: 'تم تعليق هذا الحساب. يرجى التواصل مع الدعم الفني' });
+    }
+    if (photoUrl && !user.avatar) {
+      user.avatar = photoUrl;
+    }
+    if (displayName && displayName.trim() && (!user.displayName || user.displayName === user.email)) {
+      user.displayName = displayName.trim();
+    }
+    user.updatedAt = new Date().toISOString();
+  } else {
+    const isFirstOrTargetAdmin = db.users.length === 0 || normalizedEmail === 'nashwann1991@gmail.com';
+    const uid = firebaseUid && typeof firebaseUid === 'string' ? firebaseUid : `usr_fb_${crypto.randomUUID()}`;
+    user = {
+      uid,
+      displayName: (displayName || normalizedEmail.split('@')[0]).trim(),
+      email: normalizedEmail,
+      passwordHash: hashPassword(crypto.randomBytes(24).toString('hex')),
+      role: isFirstOrTargetAdmin ? 'admin' : 'user',
+      status: 'active',
+      avatar: photoUrl,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    db.users.push(user);
+    getOrCreateWallet(uid);
+    logAudit(user.uid, 'firebase_register', 'user', user.uid, {
+      email: user.email,
+      role: user.role,
+      authProvider: authProvider || 'firebase'
+    });
+  }
+
+  db.save();
+
+  const token = signSessionToken({ uid: user.uid, email: user.email, role: user.role });
+  res.json({
+    token,
+    user: {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      avatar: user.avatar,
+      createdAt: user.createdAt
+    }
+  });
+});
+
 apiRouter.get('/auth/me', authenticateUser, (req: AuthRequest, res: Response) => {
   const user = req.user!;
   const wallet = getOrCreateWallet(user.uid);

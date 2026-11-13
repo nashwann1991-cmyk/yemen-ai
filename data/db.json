@@ -51,7 +51,17 @@
       "status": "active",
       "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIBsgETgkHnW_hJd1MeWzLPWSQUfaxWtHHTMi453fi61qOFSg=s96-c",
       "createdAt": "2026-10-16T14:38:02.206Z",
-      "updatedAt": "2026-10-16T14:38:02.206Z"
+      "updatedAt": "2026-11-13T19:49:21.957Z"
+    },
+    {
+      "uid": "ZaxPSCAQ2SVoqpOMtbJe7km9i5m2",
+      "displayName": "ارجوان الشيباني",
+      "email": "argwan@gmail.com",
+      "passwordHash": "560563545ec841f9ab4ed501578a75ca:224bdb95f13e9fcfcd306a0b6954e615962f3f0990d75d70d2dcf5160721a2cb6d9d355fbd105f929dd5ec4e9c011a7cdeb051de56d5086798983f9991d63574",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-11-13T19:50:08.094Z",
+      "updatedAt": "2026-11-13T19:50:08.094Z"
     }
   ],
   "plans": [
@@ -267,9 +277,27 @@
       "reservedCredits": 0,
       "totalPurchased": 0,
       "updatedAt": "2026-10-16T14:38:02.206Z"
+    },
+    {
+      "uid": "ZaxPSCAQ2SVoqpOMtbJe7km9i5m2",
+      "availableCredits": 100,
+      "reservedCredits": 0,
+      "totalPurchased": 0,
+      "updatedAt": "2026-11-13T19:50:08.094Z"
     }
   ],
   "ledger": [
+    {
+      "transactionId": "tx_b81ddbf3-00b3-4d09-be18-d34e9e42032c",
+      "uid": "ZaxPSCAQ2SVoqpOMtbJe7km9i5m2",
+      "type": "plan_grant",
+      "amount": 100,
+      "balanceBefore": 0,
+      "balanceAfter": 100,
+      "referenceId": "welcome_grant",
+      "description": "هدية الترحيب بالرصيد التجريبي المجاني",
+      "createdAt": "2026-11-13T19:50:08.095Z"
+    },
     {
       "transactionId": "tx_3113be5c-a891-4c21-aab3-2c34b881ad66",
       "uid": "usr_g_902ec8d8-d46b-44ed-b611-095666784037",
@@ -515,6 +543,19 @@
   "customerApiCredentials": [],
   "payments": [],
   "auditLogs": [
+    {
+      "logId": "log_cc229113-aa56-43af-9a61-76ea945609a0",
+      "actorUid": "ZaxPSCAQ2SVoqpOMtbJe7km9i5m2",
+      "action": "firebase_register",
+      "targetType": "user",
+      "targetId": "ZaxPSCAQ2SVoqpOMtbJe7km9i5m2",
+      "timestamp": "2026-11-13T19:50:08.099Z",
+      "safeMetadata": {
+        "email": "argwan@gmail.com",
+        "role": "user",
+        "authProvider": "password"
+      }
+    },
     {
       "logId": "log_616686d7-4dfa-4c4e-8b09-3d326ffe9a3d",
       "actorUid": "usr_admin_master",

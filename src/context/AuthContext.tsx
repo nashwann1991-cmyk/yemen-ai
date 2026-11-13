@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { UserProfile, UserWallet, Subscription, SiteSettings } from '../types.js';
 import { api, getStoredToken, setStoredToken, clearStoredToken } from '../api.js';
+import { auth, signOutFromFirebase } from '../firebase.js';
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -9,6 +11,7 @@ interface AuthContextType {
   systemConfig: { geminiConfigured: boolean; siteName: string; siteNameAr: string; currency: string } | null;
   siteSettings: SiteSettings | null;
   isLoading: boolean;
+  firebaseReady: boolean;
   login: (token: string, userData: UserProfile) => void;
   logout: () => void;
   refreshUserData: () => Promise<void>;
@@ -23,6 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [systemConfig, setSystemConfig] = useState<any | null>(null);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [firebaseReady, setFirebaseReady] = useState(false);
 
   const refreshUserData = async () => {
     const token = getStoredToken();
@@ -51,7 +55,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, () => {
+      setFirebaseReady(true);
+    });
     refreshUserData();
+    return () => unsubscribe();
   }, []);
 
   const login = (token: string, userData: UserProfile) => {
@@ -62,6 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     clearStoredToken();
+    signOutFromFirebase().catch(() => {});
     setUser(null);
     setWallet(null);
     setSubscription(null);
@@ -76,6 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         systemConfig,
         siteSettings,
         isLoading,
+        firebaseReady,
         login,
         logout,
         refreshUserData

@@ -1,3 +1,7 @@
+
+coverage/
+.DS_Store
+*.log
 # Environment secrets
 .env
 .env.*

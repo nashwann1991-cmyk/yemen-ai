@@ -2,31 +2,45 @@
   "entities": {
     "User": {
       "title": "User",
-      "description": "User account profile and role information",
+      "description": "User account profile and role information stored in Firebase Firestore upon registration",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
-        "displayName": { "type": "string" },
-        "email": { "type": "string", "format": "email" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "minLength": 3, "maxLength": 254 },
         "role": { "type": "string", "enum": ["user", "admin", "creator"] },
         "status": { "type": "string", "enum": ["active", "suspended"] },
+        "authProvider": { "type": "string", "enum": ["password", "google"] },
+        "avatar": { "type": "string", "maxLength": 500 },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["uid", "email", "role", "status"]
+      "required": ["uid", "displayName", "email", "role", "status", "createdAt", "updatedAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Trusted administrator UID registry for role-based access control",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "grantedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "grantedAt"]
     },
     "Plan": {
       "title": "Plan",
       "description": "Commercial subscription package tiers",
       "type": "object",
       "properties": {
-        "planId": { "type": "string" },
-        "name": { "type": "string" },
-        "nameAr": { "type": "string" },
-        "description": { "type": "string" },
+        "planId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "nameAr": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
         "priceMinor": { "type": "number" },
-        "currency": { "type": "string" },
-        "duration": { "type": "string", "enum": ["monthly", "annual", "custom"] },
+        "currency": { "type": "string", "maxLength": 10 },
+        "duration": { "type": "string", "enum": ["daily", "5days", "weekly", "monthly", "annual", "custom"] },
+        "durationDays": { "type": "number" },
         "creditsGranted": { "type": "number" },
         "allowedModels": { "type": "array" },
         "maxVideoDurationSeconds": { "type": "number" },
@@ -39,14 +53,14 @@
       "description": "User active plan subscription record",
       "type": "object",
       "properties": {
-        "subscriptionId": { "type": "string" },
-        "uid": { "type": "string" },
-        "planId": { "type": "string" },
+        "subscriptionId": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "planId": { "type": "string", "maxLength": 128 },
         "status": { "type": "string", "enum": ["active", "expired", "cancelled"] },
         "startsAt": { "type": "string", "format": "date-time" },
         "expiresAt": { "type": "string", "format": "date-time" },
-        "renewalStatus": { "type": "string" },
-        "paymentReference": { "type": "string" }
+        "renewalStatus": { "type": "string", "maxLength": 50 },
+        "paymentReference": { "type": "string", "maxLength": 200 }
       },
       "required": ["subscriptionId", "uid", "planId", "status", "startsAt", "expiresAt"]
     },
@@ -55,16 +69,16 @@
       "description": "Cryptographically generated license key for redeeming plans or credits",
       "type": "object",
       "properties": {
-        "keyId": { "type": "string" },
-        "keyHash": { "type": "string" },
-        "planId": { "type": "string" },
+        "keyId": { "type": "string", "maxLength": 128 },
+        "keyHash": { "type": "string", "maxLength": 256 },
+        "planId": { "type": "string", "maxLength": 128 },
         "creditsAmount": { "type": "number" },
         "status": { "type": "string", "enum": ["active", "redeemed", "revoked", "expired"] },
         "expiresAt": { "type": "string", "format": "date-time" },
         "maxActivations": { "type": "number" },
         "activationCount": { "type": "number" },
-        "assignedUid": { "type": "string" },
-        "createdBy": { "type": "string" },
+        "assignedUid": { "type": "string", "maxLength": 128 },
+        "createdBy": { "type": "string", "maxLength": 128 },
         "redeemedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["keyId", "keyHash", "status", "maxActivations", "activationCount"]
@@ -74,7 +88,7 @@
       "description": "User credit balance and hold balances",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
+        "uid": { "type": "string", "maxLength": 128 },
         "availableCredits": { "type": "number" },
         "reservedCredits": { "type": "number" },
         "totalEarnedOrPurchased": { "type": "number" },
@@ -87,15 +101,15 @@
       "description": "Immutable double-entry financial ledger",
       "type": "object",
       "properties": {
-        "transactionId": { "type": "string" },
-        "uid": { "type": "string" },
+        "transactionId": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
         "type": { "type": "string", "enum": ["credit_purchase", "plan_grant", "generation_hold", "generation_finalize", "generation_refund", "activation_redeem", "admin_adjustment"] },
         "amount": { "type": "number" },
         "balanceBefore": { "type": "number" },
         "balanceAfter": { "type": "number" },
-        "referenceId": { "type": "string" },
-        "idempotencyKey": { "type": "string" },
-        "description": { "type": "string" },
+        "referenceId": { "type": "string", "maxLength": 128 },
+        "idempotencyKey": { "type": "string", "maxLength": 128 },
+        "description": { "type": "string", "maxLength": 500 },
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["transactionId", "uid", "type", "amount", "balanceBefore", "balanceAfter", "createdAt"]
@@ -105,18 +119,18 @@
       "description": "Asynchronous AI generation job for video, image, and voice",
       "type": "object",
       "properties": {
-        "jobId": { "type": "string" },
-        "uid": { "type": "string" },
+        "jobId": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
         "type": { "type": "string", "enum": ["video", "image", "speech", "prompt_expand"] },
-        "providerId": { "type": "string" },
-        "modelId": { "type": "string" },
-        "prompt": { "type": "string" },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "modelId": { "type": "string", "maxLength": 128 },
+        "prompt": { "type": "string", "maxLength": 5000 },
         "status": { "type": "string", "enum": ["queued", "processing", "succeeded", "failed", "cancelled"] },
         "estimatedCost": { "type": "number" },
         "reservedCredits": { "type": "number" },
         "actualCost": { "type": "number" },
-        "resultUrl": { "type": "string" },
-        "errorCode": { "type": "string" },
+        "resultUrl": { "type": "string", "maxLength": 1000 },
+        "errorCode": { "type": "string", "maxLength": 200 },
         "metadata": { "type": "object" },
         "createdAt": { "type": "string", "format": "date-time" },
         "completedAt": { "type": "string", "format": "date-time" }
@@ -128,13 +142,13 @@
       "description": "AI provider definition and active state",
       "type": "object",
       "properties": {
-        "providerId": { "type": "string" },
-        "name": { "type": "string" },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
         "enabled": { "type": "boolean" },
         "capabilities": { "type": "array" },
         "models": { "type": "array" },
-        "secretReference": { "type": "string" },
-        "pricingVersion": { "type": "string" },
+        "secretReference": { "type": "string", "maxLength": 200 },
+        "pricingVersion": { "type": "string", "maxLength": 50 },
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["providerId", "name", "enabled"]
@@ -144,33 +158,33 @@
       "description": "BYOK customer API keys encrypted at rest",
       "type": "object",
       "properties": {
-        "credentialId": { "type": "string" },
-        "uid": { "type": "string" },
-        "providerId": { "type": "string" },
-        "encryptedSecret": { "type": "string" },
-        "keyMask": { "type": "string" },
+        "credentialId": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "encryptedSecret": { "type": "string", "maxLength": 2000 },
+        "keyMask": { "type": "string", "maxLength": 50 },
         "status": { "type": "string", "enum": ["active", "invalid", "revoked"] },
         "createdAt": { "type": "string", "format": "date-time" },
         "lastValidatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["credentialId", "uid", "providerId", "encryptedSecret", "status"]
+      "required": ["credentialId", "uid", "providerId", "encryptedSecret", "status", "createdAt"]
     },
     "Payment": {
       "title": "Payment",
       "description": "Commercial order payment record",
       "type": "object",
       "properties": {
-        "paymentId": { "type": "string" },
-        "uid": { "type": "string" },
-        "planId": { "type": "string" },
+        "paymentId": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "planId": { "type": "string", "maxLength": 128 },
         "amountMinor": { "type": "number" },
-        "currency": { "type": "string" },
+        "currency": { "type": "string", "maxLength": 10 },
         "method": { "type": "string", "enum": ["manual_bank", "manual_crypto", "electronic_stripe", "activation_key"] },
         "status": { "type": "string", "enum": ["pending", "confirmed", "rejected", "refunded"] },
-        "proofAttachmentUrl": { "type": "string" },
-        "providerReference": { "type": "string" },
-        "adminNotes": { "type": "string" },
-        "idempotencyKey": { "type": "string" },
+        "proofAttachmentUrl": { "type": "string", "maxLength": 1000 },
+        "providerReference": { "type": "string", "maxLength": 200 },
+        "adminNotes": { "type": "string", "maxLength": 500 },
+        "idempotencyKey": { "type": "string", "maxLength": 128 },
         "createdAt": { "type": "string", "format": "date-time" },
         "confirmedAt": { "type": "string", "format": "date-time" }
       },
@@ -181,9 +195,9 @@
       "description": "External payment gateway webhook idempotency log",
       "type": "object",
       "properties": {
-        "eventId": { "type": "string" },
-        "providerId": { "type": "string" },
-        "externalEventId": { "type": "string" },
+        "eventId": { "type": "string", "maxLength": 128 },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "externalEventId": { "type": "string", "maxLength": 200 },
         "status": { "type": "string", "enum": ["pending", "processed", "failed", "duplicate"] },
         "processedAt": { "type": "string", "format": "date-time" }
       },
@@ -194,11 +208,11 @@
       "description": "Immutable security and administrative actions log",
       "type": "object",
       "properties": {
-        "logId": { "type": "string" },
-        "actorUid": { "type": "string" },
-        "action": { "type": "string" },
-        "targetType": { "type": "string" },
-        "targetId": { "type": "string" },
+        "logId": { "type": "string", "maxLength": 128 },
+        "actorUid": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 100 },
+        "targetType": { "type": "string", "maxLength": 100 },
+        "targetId": { "type": "string", "maxLength": 128 },
         "timestamp": { "type": "string", "format": "date-time" },
         "safeMetadata": { "type": "object" }
       },
@@ -208,7 +222,11 @@
   "firestore": {
     "/users/{uid}": {
       "schema": "User",
-      "description": "Stores user profiles with role-based access"
+      "description": "Stores user account profiles created during registration"
+    },
+    "/admins/{uid}": {
+      "schema": "Admin",
+      "description": "Trusted administrator registry"
     },
     "/plans/{planId}": {
       "schema": "Plan",
