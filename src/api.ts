@@ -1,4 +1,5 @@
 const TOKEN_KEY = 'creative_studio_token';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 export function getStoredToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
@@ -21,7 +22,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers
   });
@@ -32,7 +33,10 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     if (response.status === 401) {
       clearStoredToken();
     }
-    throw new Error(data.error || `خطأ في الخادم (${response.status})`);
+    const errorMessage = data.error || (response.status === 404
+      ? 'مسار واجهة الخادم غير موجود. تأكد من نشر خادم Express وضبط VITE_API_BASE_URL على عنوانه.'
+      : `خطأ في الخادم (${response.status})`);
+    throw new Error(errorMessage);
   }
 
   return data as T;
